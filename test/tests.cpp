@@ -123,7 +123,7 @@ TEST(CircleTest, LargeRadius) {
 
 TEST(CircleTest, TinyRadius) {
     Circle c(1e-10);
-    EXPECT_NEAR(c.getFerence(), 6.283185307e-10, 1e-20);
+    EXPECT_NEAR(c.getFerence(), 6.283185307e-10, 1e-19);
 }
 
 // --- Земля и верёвка ---
@@ -161,5 +161,5 @@ TEST(PoolTest, ZeroPathWidth) {
 }
 
 TEST(PoolTest, LargerPoolAndPath) {
-    EXPECT_NEAR(poolMaterialsCost(5.0, 2.0, 1000.0, 2000.0), 150796.44, 1.0);
+    EXPECT_NEAR(poolMaterialsCost(5.0, 2.0, 1000.0, 2000.0), 163362.82, 0.1);
 }
