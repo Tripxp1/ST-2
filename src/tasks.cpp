@@ -1,19 +1,39 @@
 // Copyright 2022 UNN-CS
-
 #include "tasks.h"
 #include "circle.h"
-double earthTask() {
-  double earthRadius = 6378100.0;
-  Circle earth(earthRadius);
-  earth.setFerence(earth.getFerence() + 1.0);
-  return earth.getRadius() - earthRadius;
+
+const double EARTH_RADIUS_METERS = 6378100.0;
+const double EXTRA_ROPE_METERS = 1.0;
+
+double CalculateEarthGap() {
+    Circle earthSphere(EARTH_RADIUS_METERS);
+    
+    double originalCircumference = earthSphere.getCircumference();
+    double newCircumference = originalCircumference + EXTRA_ROPE_METERS;
+    
+    earthSphere.setCircumference(newCircumference);
+    
+    double newRadius = earthSphere.getRadius();
+    double gapSize = newRadius - EARTH_RADIUS_METERS;
+    
+    return gapSize;
 }
-double poolTask(double rPool, double widthPath,
-                double priceConcrete, double priceFence) {
-  Circle pool(rPool);
-  Circle outer(rPool + widthPath);
-  double pathArea = outer.getArea() - pool.getArea();
-  double costConcrete = pathArea * priceConcrete;
-  double costFence = outer.getFerence() * priceFence;
-  return costConcrete + costFence;
+
+double CalculatePoolCost(double poolRadius, double pathWidth,
+                         double concretePricePerSquareMeter,
+                         double fencePricePerMeter) {
+    Circle innerPool(poolRadius);
+    Circle outerBoundary(poolRadius + pathWidth);
+    
+    double poolArea = innerPool.getArea();
+    double totalArea = outerBoundary.getArea();
+    double pathArea = totalArea - poolArea;
+    
+    double concreteCost = pathArea * concretePricePerSquareMeter;
+    double fenceLength = outerBoundary.getCircumference();
+    double fenceCost = fenceLength * fencePricePerMeter;
+    
+    double totalCost = concreteCost + fenceCost;
+    
+    return totalCost;
 }
